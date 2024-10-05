@@ -1,8 +1,15 @@
-Para rodar em dev
+# sia-pet-admin
 
+## Getting started
+
+Dev
+
+```
 docker-compose up
+```
 
+Prod
 
-Para rodar em prod
-
+```
 docker-compose -f docker-compose.prd.yaml up
+```
