@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      context: .
+      dockerfile: ./docker/server/Dockerfile
+      target: php
+      args:
+        - APP_ENV=${APP_ENV}
+    environment:
+        - APP_ENV=${APP_ENV}
+    image: backend:latest
+    container_name: api
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./server:/var/www
+    networks:
+      - network-aplication
+  client:
+    build:
+      context: .
+      dockerfile: ./docker/client/Dockerfile.dev
+    container_name: app-dev-admin
+    volumes:
+      - ./client/src:/app/src
+    networks:
+      - network-aplication
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    networks:
+      - network-aplication
+    ports:
+      - 3000:80
+  db:
+    image: postgres:15
+    restart: always
+    container_name: db
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - network-aplication
+networks:
+  network-aplication:
