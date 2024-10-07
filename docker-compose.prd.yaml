@@ -23,6 +23,8 @@ services:
       context: .
       dockerfile: ./docker/client/Dockerfile
     container_name: documento_client
+    volumes:
+      - ./client/src:/app/src
     networks:
       - network-aplication
   nginx:
@@ -30,10 +32,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
-    environment:
-      - NEXTAUTH_URL=http://localhost:3000
-      - NEXTAUTH_SECRET=2Hzkp5CXVzr6EHMjMVOKfbppY2eV/xmer12XqHXm6hk=
-      - NEXT_PUBLIC_API_URL=http://localhost:3000/server
     networks:
       - network-aplication
     ports:
@@ -50,7 +48,7 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
     ports:
-      - 5435:5432
+      - 5432:5432
     networks:
       - network-aplication
 networks:

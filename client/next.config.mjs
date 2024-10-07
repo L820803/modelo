@@ -9,10 +9,6 @@ const nextConfig = {
             },
         ];
     },
-    // Outras configurações
-    reactStrictMode: true,
-    swcMinify: true,  // Ativar minificação em produção
-    output: 'standalone',  // Importante para permitir SSR em produção
 };
 
 export default nextConfig;
